@@ -53,7 +53,30 @@ export function handleBidCreated(event: BidCreated): void {
   }
 }
 
+export function handleBidAccepted(event: BidAccepted): void {
+  let id = getBidId(
+    event.params._tokenAddress.toHexString(),
+    event.params._tokenId.toString(),
+    event.params._bidder.toHexString()
+  )
 
+  let bid = Bid.load(id)
+  if (bid == null) {
+    return
+  }
+  let nft = NFT.load(bid.nft)
+  if (nft == null) {
+    return
+  }
+
+  bid.status = status.SOLD
+  bid.seller = event.params._seller
+  bid.blockNumber = event.block.number
+  bid.updatedAt = event.block.timestamp
+  bid.save()
+
+  nft.updatedAt = event.block.timestamp
+  nft.save()
 
   let bidContract = ERC721Bid.bind(event.address)
   trackSale(
