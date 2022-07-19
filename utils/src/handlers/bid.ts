@@ -4,7 +4,7 @@ import {
   BidAccepted,
   BidCancelled,
   ERC721Bid,
-} from '../entities/ERC721Bid/ERC721Bid'
+} from 'entities/ERC721Bid/ERC721Bid'
 import { Bid, NFT } from '../entities/schema'
 import { getNFTId } from '../modules/nft'
 import { getBidId } from '../modules/bid'
